@@ -29,6 +29,7 @@ class RepoTableViewCell: UITableViewCell {
             starLabel.text = String(format: "%d", (repo?.stars)!)
             forkLabel.text = String(format: "%d", (repo?.forks)!)
             descriptionLabel.text = repo?.repoDescription
+            descriptionLabel.sizeToFit()
             repoImageView.setImageWith(URL(string: (repo?.ownerAvatarURL!)!)!)
         }
     }
