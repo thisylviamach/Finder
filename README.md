@@ -1,8 +1,8 @@
 # Lab 3 - Finder
 
-**Name of your app** is a GitHub Repo search app using the [GitHub API](https://developer.github.com/v3/search/#search-repositories).
+Finder is a GitHub Repo search app using the [GitHub API](https://developer.github.com/v3/search/#search-repositories).
 
-Time spent: **X** hours spent in total
+Time spent: 3 hours spent in total
 
 ## User Stories
 
@@ -34,7 +34,7 @@ Describe any challenges encountered while building the app.
 
 ## License
 
-    Copyright [2017] [Sylvia Mach ]
+    Copyright [2017] [Sylvia Mach & Vanna Phong]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
