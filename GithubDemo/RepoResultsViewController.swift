@@ -10,7 +10,14 @@ import UIKit
 import MBProgressHUD
 
 // Main ViewController
-class RepoResultsViewController: UIViewController, UITableViewDataSource {
+protocol SettingsPresentingViewControllerDelegate: class {
+    func didSaveSettings(settings: GithubRepoSearchSettings)
+    func didCancelSettings()
+}
+
+class RepoResultsViewController: UIViewController, UITableViewDataSource, SettingsPresentingViewControllerDelegate {
+    
+    
 
     var searchBar: UISearchBar!
     var searchSettings = GithubRepoSearchSettings()
@@ -37,6 +44,10 @@ class RepoResultsViewController: UIViewController, UITableViewDataSource {
         // Add SearchBar to the NavigationBar
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
+        
+        //print("Search setting: \(searchSettings)")
+        self.searchSettings = GithubRepoSearchSettings.init()
+//        print("\(searchSettings)")
 
         // Perform the first search when the view controller first loads
         doSearch()
@@ -45,6 +56,7 @@ class RepoResultsViewController: UIViewController, UITableViewDataSource {
     // Perform the search.
     fileprivate func doSearch() {
 
+        print("lol")
         MBProgressHUD.showAdded(to: self.view, animated: true)
 
         // Perform request to GitHub API to get the list of repositories
@@ -59,7 +71,7 @@ class RepoResultsViewController: UIViewController, UITableViewDataSource {
 
             MBProgressHUD.hide(for: self.view, animated: true)
             }, error: { (error) -> Void in
-                print(error)
+                print("\(error)")
         })
     }
     
@@ -77,6 +89,30 @@ class RepoResultsViewController: UIViewController, UITableViewDataSource {
         } else {
             return 0
         }
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let navController = segue.destination as! UINavigationController
+        let vc = navController.topViewController as! SearchSettingsViewController
+
+        vc.settings = self.searchSettings
+        print("\(self.searchSettings)")
+        vc.delegate = self
+
+
+    }
+    
+    
+    
+    func didSaveSettings(settings: GithubRepoSearchSettings){
+        self.searchSettings = settings
+        print("didsave: \(self.searchSettings.minStars)")
+        //print("didsave: \(self.searchSettings.searchString)")
+        print("here")
+        doSearch()
+    }
+    
+    func didCancelSettings(){
+        
     }
 }
 
@@ -103,4 +139,6 @@ extension RepoResultsViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         doSearch()
     }
+    
+    
 }
